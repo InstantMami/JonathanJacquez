@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jonathan Jacquez | Video Editor Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-panel: #111111;
+            --bg-strip: #161616;
+            --accent: #e8b04a;
+            --accent-dim: #c4922e;
+            --accent-glow: rgba(232,176,74,0.15);
+            --text-primary: #f0ece4;
+            --text-secondary: #8a857b;
+            --text-muted: #5a564e;
+            --red-accent: #c0392b;
+            --film-border: #2a2722;
+            --timeline-track: #1a1917;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #00ff88;
-            --secondary: #ff00aa;
-            --tertiary: #00ccff;
-            --dark: #0a0a0f;
-            --darker: #050508;
-            --light: #e0e0e0;
-            --card-bg: #12121a;
-            --border-color: #2a2a3a;
-            --glow-primary: 0 0 15px rgba(0, 255, 136, 0.4);
-            --glow-secondary: 0 0 15px rgba(255, 0, 170, 0.4);
-            --glow-tertiary: 0 0 15px rgba(0, 204, 255, 0.4);
         }
 
         html {
@@ -31,1168 +32,1118 @@
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--darker);
-            color: var(--light);
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
             overflow-x: hidden;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--darker);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
-        }
-
-        body::before {
+        /* ─── FILM GRAIN OVERLAY ─── */
+        body::after {
             content: '';
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.02) 1px, transparent 1px);
-            background-size: 40px 40px;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
             pointer-events: none;
-            z-index: 0;
+            z-index: 9999;
         }
 
+        /* ─── NAVIGATION ─── */
         nav {
             position: fixed;
             top: 0;
-            left: 0;
             width: 100%;
-            padding: 12px 30px;
+            z-index: 1000;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--film-border);
+            padding: 0 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 2px solid var(--border-color);
+            height: 64px;
         }
 
-        .logo {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            color: var(--primary);
-            text-shadow: var(--glow-primary);
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 3px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
             text-decoration: none;
+        }
+
+        .nav-logo .rec-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--red-accent);
+            border-radius: 50%;
+            animation: recBlink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes recBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
 
         .nav-links {
             display: flex;
-            gap: 20px;
             list-style: none;
+            gap: 8px;
         }
 
         .nav-links a {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            color: var(--light);
             text-decoration: none;
+            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary);
-            transition: width 0.3s ease;
-            box-shadow: var(--glow-primary);
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: all 0.3s;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            color: var(--accent);
+            background: var(--accent-glow);
         }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .menu-toggle {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 4px;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 2px;
-            background: var(--primary);
-            transition: all 0.3s ease;
-            box-shadow: var(--glow-primary);
-        }
-
-        .hero {
+        /* ─── HERO / OPENING SEQUENCE ─── */
+        #home {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             position: relative;
-            padding: 80px 20px;
             overflow: hidden;
+        }
+
+        .hero-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 40%, var(--bg-dark) 100%);
+            pointer-events: none;
+        }
+
+        /* Filmstrip borders */
+        .filmstrip-left, .filmstrip-right {
+            position: absolute;
+            top: 0;
+            width: 48px;
+            height: 100%;
+            background: var(--bg-strip);
+            z-index: 2;
+        }
+        .filmstrip-left { left: 0; border-right: 2px solid var(--film-border); }
+        .filmstrip-right { right: 0; border-left: 2px solid var(--film-border); }
+
+        .filmstrip-left::before, .filmstrip-right::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 16px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 8px,
+                var(--film-border) 8px,
+                var(--film-border) 10px,
+                transparent 10px,
+                transparent 30px
+            );
         }
 
         .hero-content {
             text-align: center;
-            z-index: 1;
-            max-width: 700px;
+            position: relative;
+            z-index: 3;
+            animation: fadeInUp 1.2s ease-out;
         }
 
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--primary), var(--tertiary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: gradientShift 5s ease infinite;
-            background-size: 200% 200%;
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .hero .subtitle {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.7rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            text-shadow: var(--glow-secondary);
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--light);
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .cta-buttons {
+        .hero-tagline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .hero-tagline .line {
+            width: 40px;
+            height: 1px;
+            background: var(--accent-dim);
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.5rem, 10vw, 8rem);
+            letter-spacing: 8px;
+            line-height: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .hero-subtitle {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .hero-desc {
+            max-width: 520px;
+            margin: 0 auto 48px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
-        }
-
-        .btn {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            padding: 12px 25px;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-primary {
-            background: var(--primary);
-            color: var(--darker);
-            box-shadow: var(--glow-primary);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            padding: 14px 36px;
+            background: var(--accent);
+            color: var(--bg-dark);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
         .btn-primary:hover {
+            background: var(--accent-dim);
             transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.6);
+            box-shadow: 0 8px 30px rgba(232,176,74,0.25);
         }
 
-        .btn-secondary {
+        .btn-outline {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            padding: 14px 36px;
             background: transparent;
-            color: var(--secondary);
-            border: 2px solid var(--secondary);
-            box-shadow: var(--glow-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--film-border);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
-        .btn-secondary:hover {
-            background: var(--secondary);
-            color: var(--darker);
-            transform: translateY(-2px);
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
 
-        .floating-element {
+        /* Timecode display */
+        .timecode {
             position: absolute;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.5rem;
-            opacity: 0.08;
-            animation: float 6s ease-in-out infinite;
+            bottom: 40px;
+            right: 80px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            z-index: 3;
         }
 
-        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .floating-element:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
-        .floating-element:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
+        .timecode .tc-label {
+            color: var(--red-accent);
+            margin-right: 8px;
         }
 
+        /* ─── SECTION STYLES ─── */
         section {
-            padding: 60px 20px;
+            padding: 100px 60px;
             position: relative;
-            z-index: 1;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .section-header {
+            text-align: center;
+            margin-bottom: 72px;
+        }
+
+        .section-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 12px;
         }
 
         .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            letter-spacing: 4px;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            box-shadow: var(--glow-primary);
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: var(--accent);
+            margin: 16px auto 0;
         }
 
-        .about {
-            background: rgba(18, 18, 26, 0.5);
+        /* ─── ABOUT / DIRECTOR'S NOTE ─── */
+        #about {
+            background: var(--bg-panel);
+            border-top: 1px solid var(--film-border);
+            border-bottom: 1px solid var(--film-border);
         }
 
-        .about-content {
+        .about-grid {
             display: grid;
-            grid-template-columns: 0.8fr 1.2fr;
-            gap: 30px;
-            align-items: center;
+            grid-template-columns: 340px 1fr;
+            gap: 64px;
+            max-width: 1100px;
+            margin: 0 auto;
+            align-items: start;
         }
 
-        .about-image {
+        .about-photo-wrapper {
             position: relative;
         }
 
-        .about-image .profile-frame {
+        .about-photo-wrapper img {
             width: 100%;
-            aspect-ratio: 1;
-            background: var(--card-bg);
-            border: 2px solid var(--primary);
-            box-shadow: var(--glow-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .about-image .profile-frame::before {
-            content: '🎬';
-            font-size: 4rem;
-            opacity: 0.3;
-        }
-
-        .about-image .profile-frame img {
-            width: 100%;
-            height: 100%;
+            aspect-ratio: 3/4;
             object-fit: cover;
-            position: absolute;
+            display: block;
+            filter: grayscale(20%) contrast(1.05);
         }
 
-        .about-image::after {
-            content: '';
+        .about-photo-frame {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            width: 100%;
-            height: 100%;
-            border: 2px solid var(--secondary);
-            box-shadow: var(--glow-secondary);
-            z-index: -1;
+            inset: -12px;
+            border: 1px solid var(--film-border);
+            pointer-events: none;
+        }
+
+        .about-photo-frame::before {
+            content: 'SCENE 01';
+            position: absolute;
+            top: -24px;
+            left: 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
         }
 
         .about-text h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 15px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
         }
 
         .about-text p {
-            margin-bottom: 12px;
-            font-size: 1rem;
-            opacity: 0.9;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
         }
 
-        .skills {
+        .skills-strip {
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 8px;
+            margin-top: 28px;
         }
 
         .skill-tag {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.5rem;
-            padding: 8px 12px;
-            background: var(--card-bg);
-            border: 2px solid var(--tertiary);
-            color: var(--tertiary);
-            box-shadow: var(--glow-tertiary);
-            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            border: 1px solid var(--film-border);
+            color: var(--text-secondary);
+            transition: all 0.3s;
         }
 
         .skill-tag:hover {
-            background: var(--tertiary);
-            color: var(--darker);
-            transform: scale(1.05);
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-glow);
         }
 
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .portfolio-item {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .portfolio-item:hover {
-            border-color: var(--primary);
-            box-shadow: var(--glow-primary);
-            transform: translateY(-5px);
-        }
-
-        .portfolio-thumbnail {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: linear-gradient(135deg, var(--darker), var(--card-bg));
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ─── TIMELINE / WORK HISTORY ─── */
+        .timeline-container {
+            max-width: 800px;
+            margin: 0 auto;
             position: relative;
         }
 
-        .portfolio-thumbnail::before {
-            content: '▶';
-            font-size: 2rem;
-            color: var(--primary);
-            opacity: 0.5;
-            transition: all 0.3s ease;
-        }
-
-        .portfolio-item:hover .portfolio-thumbnail::before {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .portfolio-info {
-            padding: 15px;
-        }
-
-        .portfolio-info h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .portfolio-info p {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            margin-bottom: 10px;
-        }
-
-        .portfolio-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .portfolio-tag {
-            font-size: 0.7rem;
-            padding: 4px 10px;
-            background: rgba(0, 204, 255, 0.1);
-            border: 1px solid var(--tertiary);
-            color: var(--tertiary);
-        }
-
-        .services {
-            background: rgba(18, 18, 26, 0.5);
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .service-card {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            padding: 25px 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .service-card::before {
+        .timeline-container::before {
             content: '';
             position: absolute;
+            left: 24px;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            bottom: 0;
+            width: 1px;
+            background: var(--film-border);
         }
 
-        .service-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
+        .timeline-entry {
+            padding-left: 72px;
+            margin-bottom: 48px;
+            position: relative;
         }
 
-        .service-card:hover::before {
-            transform: scaleX(1);
+        .timeline-entry::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 8px;
+            width: 13px;
+            height: 13px;
+            border: 2px solid var(--accent);
+            background: var(--bg-dark);
+            border-radius: 50%;
         }
 
-        .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .service-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .service-card p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .contact-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-        }
-
-        .contact-info h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 15px;
-            font-size: 1rem;
-        }
-
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--card-bg);
-            border: 2px solid var(--tertiary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: var(--glow-tertiary);
-        }
-
-        .contact-form {
-            background: var(--card-bg);
-            padding: 25px;
-            border: 2px solid var(--border-color);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
-            color: var(--tertiary);
-            margin-bottom: 8px;
+        .timeline-date {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--accent);
             text-transform: uppercase;
+            margin-bottom: 8px;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background: var(--darker);
-            border: 2px solid var(--border-color);
-            color: var(--light);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .timeline-role {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: var(--glow-primary);
+        .timeline-company {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
         }
 
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.7;
         }
 
-        footer {
-            background: var(--darker);
-            padding: 25px 20px;
-            text-align: center;
-            border-top: 2px solid var(--border-color);
+        /* Education */
+        .edu-card {
+            padding-left: 72px;
+            position: relative;
+        }
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            left: 18px;
+            top: 8px;
+            width: 13px;
+            height: 13px;
+            border: 2px solid var(--accent);
+            background: var(--accent);
+            border-radius: 50%;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
+        .edu-card .timeline-role { font-size: 1.2rem; }
 
-        .social-link {
-            width: 40px;
-            height: 40px;
-            background: var(--card-bg);
-            border: 2px solid var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: var(--glow-primary);
-        }
-
-        .social-link:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .social-link:hover span {
-            color: var(--darker);
-        }
-
-        footer p {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.5rem;
-            color: var(--light);
-            opacity: 0.6;
-        }
-
-        @media (max-width: 768px) {
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-
-            .about-image {
-                max-width: 280px;
-                margin: 0 auto;
-            }
-
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-
-            .hero .subtitle {
-                font-size: 0.55rem;
-            }
-
-            nav {
-                padding: 10px 15px;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 55px;
-                left: 0;
-                width: 100%;
-                background: rgba(10, 10, 15, 0.98);
-                flex-direction: column;
-                padding: 20px;
-                gap: 15px;
-                transform: translateY(-150%);
-                transition: transform 0.3s ease;
-            }
-
-            .nav-links.active {
-                transform: translateY(0);
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .hero h1 {
-                font-size: 1.6rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 250px;
-                text-align: center;
-            }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .stats {
+        /* Stats Bar */
+        .stats-bar {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-top: 35px;
+            gap: 24px;
+            max-width: 900px;
+            margin: 64px auto 0;
+            padding-top: 48px;
+            border-top: 1px solid var(--film-border);
         }
 
         .stat-item {
             text-align: center;
-            padding: 20px 15px;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .stat-item:hover {
-            border-color: var(--secondary);
-            box-shadow: var(--glow-secondary);
         }
 
         .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--primary);
-            text-shadow: var(--glow-primary);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.8rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            line-height: 1;
         }
 
         .stat-label {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.45rem;
-            color: var(--secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
             margin-top: 8px;
         }
 
-        .work-experience {
-            margin-top: 30px;
+        /* ─── PORTFOLIO / REEL ─── */
+        #portfolio {
+            background: var(--bg-panel);
+            border-top: 1px solid var(--film-border);
+            border-bottom: 1px solid var(--film-border);
         }
 
-        .work-experience h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            color: var(--primary);
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .portfolio-card {
+            background: var(--bg-strip);
+            border: 1px solid var(--film-border);
+            padding: 32px 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .portfolio-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .portfolio-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .portfolio-card:hover {
+            border-color: var(--accent-dim);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
+
+        .card-icon {
+            font-size: 2rem;
             margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border: 1px solid var(--film-border);
+            color: var(--text-muted);
+        }
+
+        /* ─── SERVICES / POST-PRODUCTION SUITE ─── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            padding: 36px 28px;
+            border: 1px solid var(--film-border);
+            background: var(--bg-panel);
             text-align: center;
+            transition: all 0.3s;
+            position: relative;
         }
 
-        .job-item {
-            background: var(--card-bg);
-            border-left: 3px solid var(--primary);
-            padding: 15px 20px;
-            margin-bottom: 15px;
+        .service-card:hover {
+            border-color: var(--accent-dim);
+            background: var(--bg-strip);
         }
 
-        .job-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
-            color: var(--tertiary);
-            margin-bottom: 5px;
+        .service-icon {
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            display: block;
         }
 
-        .job-item .company {
+        .service-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .service-desc {
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            line-height: 1.6;
+        }
+
+        /* ─── CONTACT / FINAL CUT ─── */
+        #contact {
+            background: var(--bg-panel);
+            border-top: 1px solid var(--film-border);
+        }
+
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .contact-info > p {
+            color: var(--text-secondary);
             font-size: 0.9rem;
-            color: var(--secondary);
-            margin-bottom: 8px;
+            margin-bottom: 36px;
+            line-height: 1.6;
         }
 
-        .job-item .period {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 8px;
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
-        .job-item p {
+        .contact-detail .cd-icon {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--film-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-detail .cd-text {
             font-size: 0.85rem;
-            opacity: 0.85;
+            color: var(--text-secondary);
         }
 
-        .education-item {
-            background: var(--card-bg);
-            border-left: 3px solid var(--tertiary);
-            padding: 15px 20px;
-            margin-bottom: 15px;
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .education-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
-            color: var(--tertiary);
-            margin-bottom: 5px;
+        .contact-form input,
+        .contact-form textarea {
+            background: var(--bg-strip);
+            border: 1px solid var(--film-border);
+            padding: 14px 18px;
+            color: var(--text-primary);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.3s;
         }
 
-        .education-item .degree {
-            font-size: 0.85rem;
-            color: var(--light);
-            margin-bottom: 5px;
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--accent);
         }
 
-        .education-item .year {
-            font-size: 0.8rem;
-            opacity: 0.7;
+        .contact-form textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: var(--text-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            text-align: center;
+            padding: 36px 40px;
+            border-top: 1px solid var(--film-border);
+            background: var(--bg-dark);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            width: 42px;
+            height: 42px;
+            border: 1px solid var(--film-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .footer-copy {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ─── SCROLL ANIMATIONS ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 900px) {
+            section { padding: 72px 28px; }
+            nav { padding: 0 20px; }
+            .filmstrip-left, .filmstrip-right { display: none; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-photo-wrapper { max-width: 280px; margin: 0 auto; }
+            .portfolio-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid { grid-template-columns: 1fr 1fr; }
+            .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+            .timecode { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .nav-links { display: none; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 16px; }
         }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#" class="logo">JONATHAN</a>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div class="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+    <a href="#" class="nav-logo">
+        <span class="rec-dot"></span>
+        JONATHAN
+    </a>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="home">
+    <div class="filmstrip-left"></div>
+    <div class="filmstrip-right"></div>
+    <div class="hero-vignette"></div>
+
+    <div class="hero-content">
+        <div class="hero-tagline">
+            <span class="line"></span>
+            Director's Cut
+            <span class="line"></span>
         </div>
-    </nav>
-
-    <section class="hero" id="home">
-        <div class="floating-element">👾</div>
-        <div class="floating-element">🎮</div>
-        <div class="floating-element">🕹️</div>
-        
-        <div class="hero-content">
-            <h1>JONATHAN JACQUEZ</h1>
-            <p class="subtitle">// VIDEO EDITOR //</p>
-            <p>Crafting compelling visual stories with pixel-perfect precision. 
-               Bringing your footage to life through creative editing and post-production magic.</p>
-            <div class="cta-buttons">
-                <a href="#portfolio" class="btn btn-primary">View My Work</a>
-                <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-            </div>
+        <h1 class="hero-title">JONATHAN<br>JACQUEZ</h1>
+        <p class="hero-subtitle">Video Editor &bull; Storyteller &bull; Post-Production</p>
+        <p class="hero-desc">
+            Crafting compelling visual stories with precision and purpose.
+            Bringing raw footage to life through creative editing, color grading, and post-production artistry.
+        </p>
+        <div class="hero-buttons">
+            <a href="#portfolio" class="btn-primary">View My Reel</a>
+            <a href="#contact" class="btn-outline">Collaborate</a>
         </div>
-    </section>
+    </div>
 
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">PLAYER PROFILE</h2>
-            
-            <div class="about-content">
-                <div class="about-image fade-in">
-                    <div class="profile-frame">
-                        <img src="JONATHAN JACQUEZ.jpg" alt="Jonathan Jacquez" style="width: 100%; height: 100%; object-fit: cover; position: absolute;">
-                    </div>
-                </div>
-                
-                <div class="about-text fade-in">
-                    <h3>ABOUT ME</h3>
-                    <p>I'm a passionate Video Editor based in Tandag City, Surigao del Sur. 
-                       With expertise in video editing, motion graphics, and post-production, 
-                       I specialize in transforming raw footage into captivating stories.</p>
-                    <p>My journey began with a love for visual arts, which evolved into a 
-                       professional career in video editing. I combine technical skills 
-                       with creative vision to deliver exceptional results.</p>
-                    
-                    <div class="skills">
-                        <span class="skill-tag">Video Editing</span>
-                        <span class="skill-tag">Vegas Pro</span>
-                        <span class="skill-tag">Photoshop</span>
-                        <span class="skill-tag">Motion Graphics</span>
-                        <span class="skill-tag">Color Correction</span>
-                        <span class="skill-tag">Audio Mixing</span>
-                        <span class="skill-tag">Fast Learner</span>
-                        <span class="skill-tag">Teamwork</span>
-                    </div>
-                </div>
-            </div>
+    <div class="timecode">
+        <span class="tc-label">● REC</span>
+        <span id="timecodeDisplay">00:00:00:00</span>
+    </div>
+</section>
 
-            <!-- Work Experience -->
-            <div class="work-experience fade-in">
-                <h3>WORK HISTORY</h3>
-                
-                <div class="job-item">
-                    <h4>Administrative Officer I</h4>
-                    <div class="company">LGU Province of Surigao del Sur</div>
-                    <div class="period">August 2024 – Present</div>
-                    <p>Manage inventory and asset control for the Province of Surigao del Sur. Maintain accurate asset records, coordinate audits and transfers.</p>
-                </div>
+<!-- ─── ABOUT ─── -->
+<section id="about">
+    <div class="section-header reveal">
+        <p class="section-label">Scene 01</p>
+        <h2 class="section-title">DIRECTOR'S NOTE</h2>
+        <div class="section-divider"></div>
+    </div>
 
-                <div class="job-item">
-                    <h4>Video Editor</h4>
-                    <div class="company">Congressional Office of Congressman Romeo S. Momo</div>
-                    <div class="period">October 2022 – August 2024</div>
-                    <p>Produced rapid-turnaround video and photo content for election campaigns, delivering same-day edits optimized for Facebook.</p>
-                </div>
+    <div class="about-grid">
+        <div class="about-photo-wrapper reveal">
+            <img src="https://instantmami.github.io/JonathanJacquez/JONATHAN JACQUEZ.jpg" alt="Jonathan Jacquez" onerror="this.style.background='var(--bg-strip)'; this.style.minHeight='400px';">
+            <div class="about-photo-frame"></div>
+        </div>
 
-                <div class="job-item">
-                    <h4>Head Video Editor</h4>
-                    <div class="company">Morning Star Cable Television, Tandag City</div>
-                    <div class="period">September 2021 – October 2022</div>
-                    <p>Led end-to-end video production for local television programs using Vegas Pro and Photoshop. Created motion graphics, performed color correction and audio mixing.</p>
-                </div>
-            </div>
+        <div class="about-text reveal">
+            <h3>ABOUT ME</h3>
+            <p>
+                I'm a passionate Video Editor based in Tandag City, Surigao del Sur.
+                With expertise in video editing, motion graphics, and post-production,
+                I specialize in transforming raw footage into captivating stories.
+            </p>
+            <p>
+                My journey began with a love for visual arts, which evolved into a
+                professional career in video editing. I combine technical skills
+                with creative vision to deliver exceptional results.
+            </p>
 
-            <!-- Education -->
-            <div class="work-experience fade-in">
-                <h3>EDUCATION</h3>
-                
-                <div class="education-item">
-                    <h4>Saint Theresa College, Tandag</h4>
-                    <div class="degree">Bachelor of Science in Information Technology</div>
-                    <div class="year">October 2021</div>
-                </div>
-            </div>
-            
-            <div class="stats fade-in">
-                <div class="stat-item">
-                    <div class="stat-number">5+</div>
-                    <div class="stat-label">YEARS</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">200+</div>
-                    <div class="stat-label">PROJECTS</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">50+</div>
-                    <div class="stat-label">CLIENTS</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">SATISFIED</div>
-                </div>
+            <div class="skills-strip">
+                <span class="skill-tag">Video Editing</span>
+                <span class="skill-tag">Vegas Pro</span>
+                <span class="skill-tag">Photoshop</span>
+                <span class="skill-tag">Motion Graphics</span>
+                <span class="skill-tag">Color Correction</span>
+                <span class="skill-tag">Audio Mixing</span>
+                <span class="skill-tag">Fast Learner</span>
+                <span class="skill-tag">Teamwork</span>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section id="portfolio">
-        <div class="container">
-            <h2 class="section-title">GAME HIGHLIGHTS</h2>
-            
-            <div class="portfolio-grid">
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">🎥</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>TV Programs</h3>
-                        <p>Local television program production with motion graphics.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Broadcast</span>
-                            <span class="portfolio-tag">TV</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">📱</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>Social Media</h3>
-                        <p>Campaign content optimized for Facebook engagement.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Campaign</span>
-                            <span class="portfolio-tag">Facebook</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">🎬</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>Event Coverage</h3>
-                        <p>Live event coverage with rapid turnaround editing.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Events</span>
-                            <span class="portfolio-tag">Live</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">🎨</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>Motion Graphics</h3>
-                        <p>Animated graphics and visual effects for various projects.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Animation</span>
-                            <span class="portfolio-tag">VFX</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">🎞️</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>Color Grading</h3>
-                        <p>Professional color correction and visual enhancement.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Color</span>
-                            <span class="portfolio-tag">Grade</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="portfolio-item fade-in">
-                    <div class="portfolio-thumbnail">
-                        <span style="font-size: 2.5rem; opacity: 0.3;">🔊</span>
-                    </div>
-                    <div class="portfolio-info">
-                        <h3>Audio Mixing</h3>
-                        <p>Professional audio editing and sound design.</p>
-                        <div class="portfolio-tags">
-                            <span class="portfolio-tag">Audio</span>
-                            <span class="portfolio-tag">Sound</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Timeline -->
+    <div style="max-width: 1100px; margin: 80px auto 0;">
+        <div class="section-header reveal">
+            <p class="section-label">Credits</p>
+            <h2 class="section-title">PRODUCTION HISTORY</h2>
+            <div class="section-divider"></div>
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline-entry reveal">
+                <div class="timeline-date">August 2024 – Present</div>
+                <div class="timeline-role">ADMINISTRATIVE OFFICER I</div>
+                <div class="timeline-company">LGU Province of Surigao del Sur</div>
+                <p class="timeline-desc">
+                    Manage inventory and asset control for the Province of Surigao del Sur.
+                    Maintain accurate asset records, coordinate audits and transfers.
+                </p>
+            </div>
+
+            <div class="timeline-entry reveal">
+                <div class="timeline-date">October 2022 – August 2024</div>
+                <div class="timeline-role">VIDEO EDITOR</div>
+                <div class="timeline-company">Congressional Office of Congressman Romeo S. Momo</div>
+                <p class="timeline-desc">
+                    Produced rapid-turnaround video and photo content for election campaigns,
+                    delivering same-day edits optimized for Facebook.
+                </p>
+            </div>
+
+            <div class="timeline-entry reveal">
+                <div class="timeline-date">September 2021 – October 2022</div>
+                <div class="timeline-role">HEAD VIDEO EDITOR</div>
+                <div class="timeline-company">Morning Star Cable Television, Tandag City</div>
+                <p class="timeline-desc">
+                    Led end-to-end video production for local television programs using Vegas Pro
+                    and Photoshop. Created motion graphics, performed color correction and audio mixing.
+                </p>
+            </div>
+
+            <div class="edu-card reveal">
+                <div class="timeline-date">Graduated October 2021</div>
+                <div class="timeline-role">BS INFORMATION TECHNOLOGY</div>
+                <div class="timeline-company">Saint Theresa College, Tandag</div>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">POWER-UPS</h2>
-            
-            <div class="services-grid">
-                <div class="service-card fade-in">
-                    <span class="service-icon">✂️</span>
-                    <h3>Video Editing</h3>
-                    <p>Professional editing with seamless transitions and pacing.</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <span class="service-icon">✨</span>
-                    <h3>Motion Graphics</h3>
-                    <p>Eye-catching animated elements to enhance content.</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <span class="service-icon">🎨</span>
-                    <h3>Color Grading</h3>
-                    <p>Professional color correction for perfect visual style.</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <span class="service-icon">🔊</span>
-                    <h3>Sound Design</h3>
-                    <p>Audio editing and mixing for immersive experience.</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <span class="service-icon">🚀</span>
-                    <h3>VFX</h3>
-                    <p>Visual effects and compositing for extra magic.</p>
-                </div>
-                
-                <div class="service-card fade-in">
-                    <span class="service-icon">📱</span>
-                    <h3>Social Media</h3>
-                    <p>Platform-optimized content for maximum engagement.</p>
-                </div>
+    <!-- Stats -->
+    <div class="stats-bar reveal">
+        <div class="stat-item">
+            <div class="stat-number">5+</div>
+            <div class="stat-label">Years</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">200+</div>
+            <div class="stat-label">Projects</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Clients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Satisfaction</div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PORTFOLIO ─── -->
+<section id="portfolio">
+    <div class="section-header reveal">
+        <p class="section-label">Scene 02</p>
+        <h2 class="section-title">THE REEL</h2>
+        <div class="section-divider"></div>
+    </div>
+
+    <div class="portfolio-grid">
+        <div class="portfolio-card reveal">
+            <span class="card-icon">🎥</span>
+            <h3 class="card-title">TV Programs</h3>
+            <p class="card-desc">Local television program production with broadcast-quality motion graphics and visual storytelling.</p>
+            <div class="card-tags">
+                <span class="card-tag">Broadcast</span>
+                <span class="card-tag">Television</span>
             </div>
         </div>
-    </section>
 
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">START NEW GAME</h2>
-            
-            <div class="contact-content">
-                <div class="contact-info fade-in">
-                    <h3>LET'S CONNECT</h3>
-                    <p style="margin-bottom: 20px; opacity: 0.8;">Ready to level up your video content? 
-                       Get in touch and let's create something amazing!</p>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📍</div>
-                        <span>Serra Street, Bongtud, Tandag City</span>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <span>0994 771 1043</span>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon">📧</div>
-                        <span>jonathan.jacquez@email.com</span>
-                    </div>
-
-                    <div class="contact-item">
-                        <div class="contact-icon">🔗</div>
-                        <span style="font-size: 0.9rem;">linkedin.com/in/jonathan-jacquez-030687259</span>
-                    </div>
-                </div>
-                
-                <form class="contact-form fade-in">
-                    <div class="form-group">
-                        <label for="name">Player Name</label>
-                        <input type="text" id="name" name="name" placeholder="Enter your name">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="Tell me about your project..."></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
-                </form>
+        <div class="portfolio-card reveal">
+            <span class="card-icon">📱</span>
+            <h3 class="card-title">Social Media</h3>
+            <p class="card-desc">Campaign content crafted and optimized for Facebook engagement with rapid turnaround delivery.</p>
+            <div class="card-tags">
+                <span class="card-tag">Campaign</span>
+                <span class="card-tag">Facebook</span>
             </div>
         </div>
-    </section>
 
-    <footer>
-        <div class="social-links">
-            <a href="https://ytjobs.co/talent/profile/522230" class="social-link" target="_blank"><span>📺</span></a>
-            <a href="https://www.linkedin.com/in/jonathan-jacquez-030687259/" class="social-link" target="_blank"><span>💼</span></a>
-            <a href="#" class="social-link"><span>📸</span></a>
-            <a href="#" class="social-link"><span>🎮</span></a>
+        <div class="portfolio-card reveal">
+            <span class="card-icon">🎬</span>
+            <h3 class="card-title">Event Coverage</h3>
+            <p class="card-desc">Live event coverage with same-day editing and polished delivery for immediate distribution.</p>
+            <div class="card-tags">
+                <span class="card-tag">Events</span>
+                <span class="card-tag">Live</span>
+            </div>
         </div>
-        <p>© 2026 JONATHAN JACQUEZ. ALL RIGHTS RESERVED.</p>
-    </footer>
 
-    <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
+        <div class="portfolio-card reveal">
+            <span class="card-icon">✨</span>
+            <h3 class="card-title">Motion Graphics</h3>
+            <p class="card-desc">Animated graphics and visual effects that elevate your production value and viewer engagement.</p>
+            <div class="card-tags">
+                <span class="card-tag">Animation</span>
+                <span class="card-tag">VFX</span>
+            </div>
+        </div>
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
+        <div class="portfolio-card reveal">
+            <span class="card-icon">🎨</span>
+            <h3 class="card-title">Color Grading</h3>
+            <p class="card-desc">Professional color correction and cinematic looks that define the visual mood of your project.</p>
+            <div class="card-tags">
+                <span class="card-tag">Color</span>
+                <span class="card-tag">Grade</span>
+            </div>
+        </div>
+
+        <div class="portfolio-card reveal">
+            <span class="card-icon">🔊</span>
+            <h3 class="card-title">Audio Mixing</h3>
+            <p class="card-desc">Professional audio editing and sound design for a fully immersive viewing experience.</p>
+            <div class="card-tags">
+                <span class="card-tag">Audio</span>
+                <span class="card-tag">Sound</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services">
+    <div class="section-header reveal">
+        <p class="section-label">Scene 03</p>
+        <h2 class="section-title">POST-PRODUCTION SUITE</h2>
+        <div class="section-divider"></div>
+    </div>
+
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <span class="service-icon">✂️</span>
+            <h3 class="service-title">Video Editing</h3>
+            <p class="service-desc">Professional editing with seamless transitions, pacing, and narrative flow.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">✨</span>
+            <h3 class="service-title">Motion Graphics</h3>
+            <p class="service-desc">Eye-catching animated elements to enhance your content and brand identity.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🎨</span>
+            <h3 class="service-title">Color Grading</h3>
+            <p class="service-desc">Professional color correction for the perfect cinematic visual style.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🔊</span>
+            <h3 class="service-title">Sound Design</h3>
+            <p class="service-desc">Audio editing and mixing for a fully immersive sound experience.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🎞️</span>
+            <h3 class="service-title">Visual Effects</h3>
+            <p class="service-desc">Compositing and VFX work to add that extra layer of production magic.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">📱</span>
+            <h3 class="service-title">Social Media</h3>
+            <p class="service-desc">Platform-optimized content tailored for maximum engagement.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact">
+    <div class="section-header reveal">
+        <p class="section-label">Final Scene</p>
+        <h2 class="section-title">LET'S ROLL</h2>
+        <div class="section-divider"></div>
+    </div>
+
+    <div class="contact-layout">
+        <div class="contact-info reveal">
+            <h3>START A PROJECT</h3>
+            <p>Ready to bring your vision to the screen? Let's collaborate and create something remarkable together.</p>
+
+            <div class="contact-detail">
+                <div class="cd-icon">📍</div>
+                <div class="cd-text">Serra Street, Bongtud, Tandag City</div>
+            </div>
+            <div class="contact-detail">
+                <div class="cd-icon">📱</div>
+                <div class="cd-text">0994 771 1043</div>
+            </div>
+            <div class="contact-detail">
+                <div class="cd-icon">📧</div>
+                <div class="cd-text">jonathan.jacquez@email.com</div>
+            </div>
+            <div class="contact-detail">
+                <div class="cd-icon">🔗</div>
+                <div class="cd-text">linkedin.com/in/jonathan-jacquez-030687259</div>
+            </div>
+        </div>
+
+        <div class="contact-form reveal">
+            <input type="text" placeholder="Your Name">
+            <input type="email" placeholder="Your Email">
+            <textarea placeholder="Tell me about your project..."></textarea>
+            <button class="btn-primary" style="width: 100%;">Send Message</button>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <div class="footer-links">
+        <a href="https://ytjobs.co/talent/profile/522230" target="_blank">📺</a>
+        <a href="https://www.linkedin.com/in/jonathan-jacquez-030687259/" target="_blank">💼</a>
+        <a href="#" target="_blank">📸</a>
+        <a href="#" target="_blank">🎬</a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Jonathan Jacquez &bull; All Rights Reserved</p>
+</footer>
+
+<script>
+    // Timecode counter
+    const tcDisplay = document.getElementById('timecodeDisplay');
+    let frames = 0;
+    setInterval(() => {
+        frames++;
+        const f = frames % 24;
+        const s = Math.floor(frames / 24) % 60;
+        const m = Math.floor(frames / (24 * 60)) % 60;
+        const h = Math.floor(frames / (24 * 60 * 60)) % 24;
+        tcDisplay.textContent =
+            String(h).padStart(2,'0') + ':' +
+            String(m).padStart(2,'0') + ':' +
+            String(s).padStart(2,'0') + ':' +
+            String(f).padStart(2,'0');
+    }, 1000 / 24);
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+                observer.unobserve(entry.target);
+            }
         });
+    }, { threshold: 0.1 });
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
+    reveals.forEach(el => observer.observe(el));
+</script>
 
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -30px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        document.querySelector('.contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thanks for reaching out! This is a demo form.');
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            const floatingElements = document.querySelectorAll('.floating-element');
-            const x = (e.clientX / window.innerWidth - 0.5) * 15;
-            const y = (e.clientY / window.innerHeight - 0.5) * 15;
-            
-            floatingElements.forEach((el, index) => {
-                el.style.transform = `translate(${x * (index + 1)}px, ${y * (index + 1)}px)`;
-            });
-        });
-    </script>
 </body>
 </html>
