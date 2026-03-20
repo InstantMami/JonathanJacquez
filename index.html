@@ -807,6 +807,7 @@
         <li><a href="#home">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#videos">Videos</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#contact">Contact</a></li>
     </ul>
@@ -872,6 +873,8 @@
             <div class="skills-strip">
                 <span class="skill-tag">Video Editing</span>
                 <span class="skill-tag">Vegas Pro</span>
+                <span class="skill-tag">Canva</span>
+                <span class="skill-tag">Capcut Pro</span>
                 <span class="skill-tag">Photoshop</span>
                 <span class="skill-tag">Motion Graphics</span>
                 <span class="skill-tag">Color Correction</span>
@@ -1021,6 +1024,40 @@
     </div>
 </section>
 
+<!-- ─── SHORT FORM VIDEOS ─── -->
+<section id="videos">
+    <div class="filmstrip-left"></div>
+    <div class="filmstrip-right"></div>
+    <div class="section-header reveal">
+        <p class="section-label">Scene 02.25</p>
+        <h2 class="section-title">SHORT FORM VIDEOS</h2>
+        <div class="section-divider"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto;">
+        <video controls src="Part 1 Levels of Relationship.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        <video controls src="Baby.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        <video controls src="Mr. Beast.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        <video controls src="When does a man DIE.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+    </div>
+</section>
+
+<!-- ─── PROMOTIONAL VIDEOS ─── -->
+<section id="about">
+    <div class="filmstrip-left"></div>
+    <div class="filmstrip-right"></div>
+    <div class="section-header reveal">
+        <p class="section-label">Scene 02.5</p>
+        <h2 class="section-title">PROMOTION VIDEOS</h2>
+        <div class="section-divider"></div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto;">
+        <video controls src="DOS - DOS - DOS KITANG TANAN!.mp4" style="width:100%; border-radius: 20px;"></video>
+        <video controls src="MORNING STAR IPTV.mp4" style="width:100%; border-radius: 20px;"></video>
+    </div>
+</section>
+
 <!-- ─── SERVICES ─── -->
 <section id="services">
     <div class="section-header reveal">
@@ -1143,6 +1180,16 @@
     }, { threshold: 0.1 });
 
     reveals.forEach(el => observer.observe(el));
+
+    // Video play control
+    const videos = document.querySelectorAll('.video-item');
+    videos.forEach(video => {
+        video.addEventListener('play', () => {
+            videos.forEach(other => {
+                if (other !== video) other.pause();
+            });
+        });
+    });
 </script>
 
 </body>
