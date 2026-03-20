@@ -793,6 +793,49 @@
             .services-grid { grid-template-columns: 1fr; }
             .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 16px; }
         }
+
+        /* Video controls hide/show on hover */
+        .video-item::-webkit-media-controls-panel {
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .video-item:hover::-webkit-media-controls-panel {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Video card hover effects */
+        .video-card {
+            position: relative;
+            border: 1px solid var(--film-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .video-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+            z-index: 1;
+        }
+
+        .video-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .video-card:hover {
+            border-color: var(--accent-dim);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
     </style>
 </head>
 <body>
@@ -1035,10 +1078,18 @@
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto;">
-        <video controls src="Part 1 Levels of Relationship.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
-        <video controls src="Baby.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
-        <video controls src="Mr. Beast.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
-        <video controls src="When does a man DIE.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        <div class="video-card">
+            <video controls src="Part 1 Levels of Relationship.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        </div>
+        <div class="video-card">
+            <video controls src="Baby.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        </div>
+        <div class="video-card">
+            <video controls src="Mr. Beast.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        </div>
+        <div class="video-card">
+            <video controls src="When does a man DIE.mp4" style="width:100%; border-radius: 20px;" class="video-item"></video>
+        </div>
     </div>
 </section>
 
@@ -1053,8 +1104,8 @@
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto;">
-        <video controls src="DOS - DOS - DOS KITANG TANAN!.mp4" style="width:100%; border-radius: 20px;"></video>
-        <video controls src="MORNING STAR IPTV.mp4" style="width:100%; border-radius: 20px;"></video>
+        <video class="video-item" controls src="DOS - DOS - DOS KITANG TANAN!.mp4" style="width:100%; border-radius: 20px;"></video>
+        <video class="video-item" controls src="MORNING STAR IPTV.mp4" style="width:100%; border-radius: 20px;"></video>
     </div>
 </section>
 
@@ -1194,3 +1245,4 @@
 
 </body>
 </html>
+
